@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CommuneAble — Assistive Technology Project</title>
+<link rel="shortcut icon" type="image/x-icon" href="logo.jpg"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  #plan {
+  background-image: url("plan.jpg");
+  background-repeat: repeat;
+  background-position: center;
+  background-attachment: scroll;
+  background-size: contain;
+}
+  .row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 880px;
+  margin-top: 10px;
+
+}
+
+
+  :root {
+    --sky-50:  #f0f8ff;
+    --sky-100: #dff1fd;
+    --sky-200: #b8e3fb;
+    --sky-300: #87ceeb;
+    --sky-400: #55b8e0;
+    --sky-500: #2d9dc8;
+    --sky-600: #1a7fa8;
+    --sky-700: #126187;
+    --sky-800: #0d4566;
+    --sky-900: #072c44;
+    --cream:   #fafcfe;
+    --text-dark: #0e2233;
+    --text-mid:  #3a5a74;
+    --text-soft: #6a90aa;
+    --white:   #ffffff;
+    --radius:  18px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(240, 248, 255, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(135, 206, 235, 0.25);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(45,157,200,0.10); }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: var(--sky-700);
+    letter-spacing: .02em;
+  }
+  .nav-logo span { color: var(--sky-400); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: .88rem; font-weight: 400; letter-spacing: .04em;
+    color: var(--text-mid); text-decoration: none;
+    transition: color .25s;
+  }
+  .nav-links a:hover { color: var(--sky-500); }
+  .nav-cta {
+    background: var(--sky-500); color: #fff !important;
+    padding: .45rem 1.2rem; border-radius: 50px;
+    font-weight: 500 !important;
+    transition: background .25s, transform .2s !important;
+  }
+  .nav-cta:hover { background: var(--sky-600) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 8rem 5% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 20% 50%, rgba(135,206,235,.28) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 30%, rgba(45,157,200,.14) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 80% at 50% 100%, rgba(184,227,251,.22) 0%, transparent 60%),
+      var(--cream);
+  }
+  .hero-orb {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(135,206,235,.35), transparent 70%);
+    animation: float 7s ease-in-out infinite;
+  }
+  .hero-orb.orb1 { width: 520px; height: 520px; top: -80px; right: -120px; animation-delay: 0s; }
+  .hero-orb.orb2 { width: 300px; height: 300px; bottom: 60px; left: -60px; animation-delay: 3.5s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-22px); }
+  }
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 760px; text-align: center;
+    animation: fadeUp .9s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(135,206,235,.22);
+    border: 1px solid rgba(135,206,235,.5);
+    color: var(--sky-700); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
+    padding: .35rem 1rem; border-radius: 50px; margin-bottom: 1.8rem;
+  }
+  .hero-badge::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--sky-400); animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--text-dark);
+    letter-spacing: -.01em;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--sky-500);
+  }
+  .hero-desc {
+    font-size: 1.08rem; line-height: 1.75;
+    color: var(--text-mid); max-width: 560px; margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--sky-500); color: #fff;
+    padding: .85rem 2.2rem; border-radius: 50px;
+    font-family: var(--font-body); font-size: .95rem; font-weight: 500;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background .25s, transform .2s, box-shadow .25s;
+    box-shadow: 0 6px 28px rgba(45,157,200,.28);
+  }
+  .btn-primary:hover { background: var(--sky-600); transform: translateY(-2px); box-shadow: 0 10px 36px rgba(45,157,200,.36); }
+  .btn-outline {
+    background: transparent; color: var(--sky-600);
+    padding: .85rem 2.2rem; border-radius: 50px;
+    font-family: var(--font-body); font-size: .95rem; font-weight: 400;
+    text-decoration: none; border: 1.5px solid rgba(45,157,200,.4); cursor: pointer;
+    transition: border-color .25s, background .25s, transform .2s;
+  }
+  .btn-outline:hover { border-color: var(--sky-500); background: rgba(135,206,235,.10); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .4rem;
+    color: var(--text-soft); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+    animation: fadeUp 1.2s .6s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--sky-300), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 6rem 5%; }
+  .section-label {
+    font-size: .75rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--sky-500); margin-bottom: .8rem; font-weight: 500;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 300; line-height: 1.2;
+    color: var(--text-dark); margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--sky-500); }
+  .section-sub {
+    font-size: 1.02rem; line-height: 1.75;
+    color: var(--text-mid); font-weight: 300; max-width: 600px;
+  }
+  .divider {
+    width: 52px; height: 2px;
+    background: linear-gradient(90deg, var(--sky-400), var(--sky-200));
+    border-radius: 2px; margin: 1.4rem 0;
+  }
+
+  /* ── ABOUT ── */
+  .about { background: var(--white); position: relative; overflow: hidden; }
+  .about-bg-shape {
+    position: absolute; top: -80px; right: -120px;
+    width: 420px; height: 420px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,227,251,.3), transparent 70%);
+    pointer-events: none;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .about-visual {
+    position: relative; display: flex; justify-content: center;
+  }
+  .about-board {
+    width: 320px; height: 320px; border-radius: 28px;
+    background: linear-gradient(135deg, var(--sky-100) 0%, var(--sky-200) 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1rem; box-shadow: 0 24px 60px rgba(45,157,200,.18);
+    position: relative; z-index: 1;
+    animation: float 6s ease-in-out infinite;
+  }
+  .board-chip {
+    background: var(--sky-600); color: #fff;
+    border-radius: 10px; padding: .7rem 1.4rem;
+    font-size: .9rem; font-weight: 500; letter-spacing: .04em;
+    box-shadow: 0 4px 14px rgba(18,97,135,.3);
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: #87ceeb; }
+  .board-label {
+    font-family: var(--font-display); font-size: 1.1rem; font-style: italic;
+    color: var(--sky-800); letter-spacing: .02em;
+  }
+  .about-float-card {
+    position: absolute; background: var(--white);
+    border: 1px solid rgba(135,206,235,.35);
+    border-radius: 14px; padding: .7rem 1rem;
+    box-shadow: 0 8px 28px rgba(45,157,200,.12);
+    font-size: .82rem; color: var(--text-mid); font-weight: 400;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .card-icon { font-size: 1.1rem; }
+  .float1 { top: 20px; right: -30px; animation: float 5s 1s ease-in-out infinite; }
+  .float2 { bottom: 30px; left: -30px; animation: float 5.5s 2s ease-in-out infinite; }
+  .about-text { position: relative; z-index: 1; }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: var(--sky-600);
+    padding: 4rem 5%;
+  }
+  .stats-inner {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; text-align: center;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 3.2rem; font-weight: 600;
+    color: #fff; line-height: 1;
+    margin-bottom: .4rem;
+  }
+  .stat-num span { font-style: italic; color: var(--sky-200); }
+  .stat-desc {
+    font-size: .88rem; color: rgba(255,255,255,.7);
+    letter-spacing: .05em; text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  /* ── TECHNOLOGY ── */
+  .technology { background: var(--cream); }
+  .tech-header { max-width: 1100px; margin: 0 auto 3.5rem; }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .tech-card {
+    background: var(--white);
+    border: 1px solid rgba(135,206,235,.22);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+    position: relative; overflow: hidden;
+  }
+  .tech-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--sky-400), var(--sky-200));
+    opacity: 0; transition: opacity .3s;
+  }
+  .tech-card:hover { transform: translateY(-6px); box-shadow: 0 16px 44px rgba(45,157,200,.14); border-color: rgba(135,206,235,.45); }
+  .tech-card:hover::before { opacity: 1; }
+  .tech-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--sky-100);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+  }
+  .tech-icon svg { width: 26px; height: 26px; stroke: var(--sky-600); fill: none; stroke-width: 1.8; }
+  .tech-card h3 {
+    font-family: var(--font-display); font-size: 1.4rem;
+    font-weight: 600; color: var(--text-dark);
+    margin-bottom: .5rem;
+  }
+  .tech-card p {
+    font-size: .92rem; color: var(--text-mid); line-height: 1.7;
+    font-weight: 300;
+  }
+  .tech-tag {
+    display: inline-block; margin-top: 1rem;
+    background: var(--sky-50); border: 1px solid rgba(135,206,235,.4);
+    color: var(--sky-700); font-size: .75rem; letter-spacing: .06em;
+    padding: .25rem .75rem; border-radius: 50px; font-weight: 500;
+  }
+
+  /* ── MISSION ── */
+  .mission {
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .mission-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 50%, rgba(135,206,235,.15) 0%, transparent 60%);
+  }
+  .mission-inner { position: relative; z-index: 1; max-width: 700px; }
+  .mission-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 300; font-style: italic;
+    line-height: 1.4; color: var(--text-dark);
+    margin: 1.5rem 0;
+  }
+  .mission-quote em { color: var(--sky-500); font-style: normal; }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--sky-800); position: relative; overflow: hidden; }
+  .contact-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(45,157,200,.15), transparent 60%);
+  }
+  .contact-inner {
+    position: relative; z-index: 1;
+    max-width: 800px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .contact h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300; color: var(--white); line-height: 1.2;
+  }
+  .contact h2 em { font-style: italic; color: var(--sky-300); }
+  .contact p { color: rgba(255,255,255,.6); font-size: .95rem; line-height: 1.7; margin-top: .8rem; font-weight: 300; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(135,206,235,.25);
+    border-radius: 12px; padding: .85rem 1.1rem;
+    color: #fff; font-family: var(--font-body); font-size: .9rem;
+    outline: none; transition: border-color .25s, background .25s;
+    resize: none;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,.35); }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--sky-300); background: rgba(255,255,255,.10); }
+  .contact-form textarea { min-height: 110px; }
+  .contact-form button {
+    background: var(--sky-400); color: #fff;
+    border: none; border-radius: 50px; padding: .85rem;
+    font-family: var(--font-body); font-size: .95rem; font-weight: 500;
+    cursor: pointer; transition: background .25s, transform .2s;
+  }
+  .contact-form button:hover { background: var(--sky-300); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--sky-900);
+    padding: 2.5rem 5%;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-size: 1.3rem;
+    font-weight: 600; color: rgba(255,255,255,.7);
+  }
+  .footer-logo span { color: var(--sky-300); }
+  footer p { font-size: .8rem; color: rgba(255,255,255,.35); }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .stats-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .about-board { width: 260px; height: 260px; }
+    .float1, .float2 { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Commune<span>Able</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#technology">Technology</a>
+    <a href="#mission">Mission</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Assistive Technology Project</div>
+    <h1>Commune<em>Able</em></h1>
+    <p class="hero-desc">
+      A hardware-powered solution designed to enhance independence and quality of life for people with special needs.
+    </p>
+    <div class="hero-actions">
+      <a href="site_2.html" class="btn-primary">Explore the Project</a>
+      <a href="#technology" class="btn-outline">Our Technology</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-bg-shape"></div>
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-board">
+        <div class="board-chip"><div class="chip-dot"></div>    AI Included   </div>
+        <div class="board-chip"><div class="chip-dot"></div> ESP32 & Arduino Active </div>
+        <div class="board-label">Communication Ability</div>
+      </div>
+      <div class="about-float-card float1">
+         !
+      </div>
+      <div class="about-float-card float2">
+         ?
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <p class="section-label">About the Project</p>
+      <h2 class="section-title">Technology that <em>listens,</em> responds & cares</h2>
+      <div class="divider"></div>
+      <p class="section-sub">
+        CommuneAble is an innovative project designed to empower disabled and nonverbal individuals by providing them with tools to communicate effectively with others. 
+      </p>
+      <br/>
+      <p class="section-sub">
+        This project translates sign language to speech & writing It also converts speech to writing, and allows users to control mobile devices by voice!
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num">ESP<span>32-S3</span></div>
+      <div class="stat-desc">AI processor </div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">UNO<span> R4</span></div>
+      <div class="stat-desc">mechanical processor</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">ESP<span>32-CAM</span></div>
+      <div class="stat-desc">AI processor</div>
+    </div>
+  </div>
+</div>
+
+<!-- TECHNOLOGY -->
+<section class="technology" id="technology">
+  <div class="tech-header reveal">
+    <p class="section-label">Our Stack</p>
+    <h2 class="section-title">How this <em>project</em> works ?</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Here is the explanation of how CommuneAble works with an image below.</p>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-card reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+      </div>
+      <h3>ESP32-S3</h3>
+      <p>The ESP32-S3 contains an audio AI model that is trained for speech recognition, it sends the prediction value to the Arduino UNO R4 through Wi-Fi .</p>
+      <span class="tech-tag">AI · Audio · Wi-Fi</span>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+      </div>
+      <h3>Arduino UNO R4</h3>
+      <p>The Arduino UNO R4 which is the access point of Wi-Fi, receive the audio prediction from ESP32-S3 & the sign prediction from ESP32-CAM then it turns on the writing machine & speaker</p>
+      <span class="tech-tag">Wi-Fi · Access Piont</span>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+      </div>
+      <h3>ESP32-CAM</h3>
+      <p>The ESP32-CAM contains an AI model that is trained on sign language, it sends the prediction value to the Arduino UNO R4 through Wi-Fi</p>
+      <span class="tech-tag">AI · Sign Language · Wi-Fi</span>
+    </div>
+  </div>
+</section>
+
+<!--PLAN-->
+<div class="row" id="plan">
+    </div>
+
+<!-- MISSION -->
+<section class="mission" id="mission">
+  <div class="mission-bg"></div>
+  <div class="mission-inner reveal">
+    <p class="section-label">Our Mission</p>
+    <blockquote class="mission-quote">
+      "Technology should remove barriers — not create them. We build for the <em>people the world often forgets to design for.</em>"
+    </blockquote>
+    <div class="divider" style="margin: 1.5rem auto;"></div>
+    <p class="section-sub" style="margin: 0 auto; text-align: center;">
+      CommuneAble exists to prove that an engineering mindset can give voice back to those who need it most.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-inner">
+    <div class="reveal">
+      <h2>What is the  <em>Next</em>? </h2>
+      <p>We will add TEXT RECOGNITION & SPEECH TO SIGN translation </p>
+    
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Commune<span>Able</span></div>
+  <p>© 2026 CommuneAble Project · By Innovators Academy Student</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
